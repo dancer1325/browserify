@@ -1,13 +1,13 @@
 # browserify
 
-`require('modules')` in the browser
-
-Use a [node](http://nodejs.org)-style `require()` to organize your browser code
-and load modules installed by [npm](https://www.npmjs.com).
-
-browserify will recursively analyze all the `require()` calls in your app in
-order to build a bundle you can serve up to the browser in a single `<script>`
-tag.
+* 💡== | browser, `require('modules')` 💡
+* allows
+  * organizing your browser code
+  * loading modules -- installed by -- [npm](https://www.npmjs.com)
+* how does it work?
+  * recursively analyze ALL `require()` calls | your app
+    * recursive analyze is done -- via -- [required](https://github.com/defunctzombie/node-required)
+  * build a bundle (== 1! `<script>`) / you can serve | browser 
 
 [![build status](https://img.shields.io/travis/browserify/browserify/master.svg)](https://travis-ci.org/browserify/browserify)
 
@@ -15,56 +15,18 @@ tag.
 
 # getting started
 
-If you're new to browserify, check out the
-[browserify handbook](https://github.com/browserify/browserify-handbook)
-and the resources on [browserify.org](http://browserify.org/).
+* [browserify handbook](https://github.com/browserify/browserify-handbook)
+* [browserify.org](http://browserify.org/)
 
-# example
-
-Whip up a file, `main.js` with some `require()`s in it. You can use relative
-paths like `'./foo.js'` and `'../lib/bar.js'` or module paths like `'gamma'`
-that will search `node_modules/` using
-[node's module lookup algorithm](https://github.com/browserify/resolve).
-
-``` js
-var foo = require('./foo.js');
-var bar = require('../lib/bar.js');
-var gamma = require('gamma');
-
-var elem = document.getElementById('result');
-var x = foo(100) + bar('baz');
-elem.textContent = gamma(x);
-```
-
-Export functionality by assigning onto `module.exports` or `exports`:
-
-``` js
-module.exports = function (n) { return n * 111 }
-```
-
-Now just use the `browserify` command to build a bundle starting at `main.js`:
-
-```
-$ browserify main.js > bundle.js
-```
-
-All of the modules that `main.js` needs are included in the `bundle.js` from a
-recursive walk of the `require()` graph using
-[required](https://github.com/defunctzombie/node-required).
-
-To use this bundle, just toss a `<script src="bundle.js"></script>` into your
-html!
-
-# install
-
-With [npm](https://www.npmjs.com/) do:
+# How to install?
 
 ```
 npm install browserify
 ```
 
-# usage
+# How to use?
 
+* TODO:
 ```
 Usage: browserify [entry files] {OPTIONS}
 
@@ -264,8 +226,9 @@ in the bundled output in a browser-appropriate way:
 * __filename - file path of the currently executing file
 * __dirname - directory path of the currently executing file
 
-# more examples
-
+# Examples
+## Simple
+* [here](example/simple)
 ## external requires
 
 You can just as easily create a bundle that will export a `require()` function so
@@ -825,15 +788,3 @@ If you write a tool, make sure to add it to that wiki page and
 add a package.json keyword of `browserify-tool` so that
 [people can browse for all the browserify
 tools](https://www.npmjs.com/browse/keyword/browserify-tool) on npmjs.org.
-
-# changelog
-
-Releases are documented in
-[changelog.markdown](changelog.markdown) and on the
-[browserify twitter feed](https://twitter.com/browserify).
-
-# license
-
-[MIT](./LICENSE)
-
-![browserify!](./assets/browserify.png)
