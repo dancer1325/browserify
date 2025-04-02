@@ -186,45 +186,45 @@ Passing arguments to transforms and plugins:
 
 # compatibility
 
-Many [npm](https://www.npmjs.com/) modules that don't do IO will just work after being
-browserified. Others take more work.
+* [npm](https://www.npmjs.com/) modules / NOT do IO
+  * | AFTER being browserified, ONLY will work  
+* node built-in modules , 
+  * | ONLY explicitly `require()` OR use functionality -> can be wrapped / work | browser 
 
-Many node built-in modules have been wrapped to work in the browser, but only
-when you explicitly `require()` or use their functionality.
-
-When you `require()` any of these modules, you will get a browser-specific shim:
-
-* [assert](https://www.npmjs.com/package/assert)
-* [buffer](https://www.npmjs.com/package/buffer)
-* [console](https://www.npmjs.com/package/console-browserify)
-* [constants](https://www.npmjs.com/package/constants-browserify)
-* [crypto](https://www.npmjs.com/package/crypto-browserify)
-* [domain](https://www.npmjs.com/package/domain-browser)
-* [events](https://www.npmjs.com/package/events)
-* [http](https://www.npmjs.com/package/stream-http)
-* [https](https://www.npmjs.com/package/https-browserify)
-* [os](https://www.npmjs.com/package/os-browserify)
-* [path](https://www.npmjs.com/package/path-browserify)
-* [punycode](https://www.npmjs.com/package/punycode)
-* [querystring](https://www.npmjs.com/package/querystring-es3)
-* [stream](https://www.npmjs.com/package/stream-browserify)
-* [string_decoder](https://www.npmjs.com/package/string_decoder)
-* [timers](https://www.npmjs.com/package/timers-browserify)
-* [tty](https://www.npmjs.com/package/tty-browserify)
-* [url](https://www.npmjs.com/package/url)
-* [util](https://www.npmjs.com/package/util)
-* [vm](https://www.npmjs.com/package/vm-browserify)
-* [zlib](https://www.npmjs.com/package/browserify-zlib)
-
-Additionally, if you use any of these variables, they
-[will be defined](https://github.com/browserify/insert-module-globals)
-in the bundled output in a browser-appropriate way:
-
-* [process](https://www.npmjs.com/package/process)
-* [Buffer](https://www.npmjs.com/package/buffer)
-* global - top-level scope object (window)
-* __filename - file path of the currently executing file
-* __dirname - directory path of the currently executing file
+* requirements to
+  * get a browser-specific shim
+    * | modules  
+      * [assert](https://www.npmjs.com/package/assert)
+      * [buffer](https://www.npmjs.com/package/buffer)
+      * [console](https://www.npmjs.com/package/console-browserify)
+      * [constants](https://www.npmjs.com/package/constants-browserify)
+      * [crypto](https://www.npmjs.com/package/crypto-browserify)
+      * [domain](https://www.npmjs.com/package/domain-browser)
+      * [events](https://www.npmjs.com/package/events)
+      * [http](https://www.npmjs.com/package/stream-http)
+      * [https](https://www.npmjs.com/package/https-browserify)
+      * [os](https://www.npmjs.com/package/os-browserify)
+      * [path](https://www.npmjs.com/package/path-browserify)
+      * [punycode](https://www.npmjs.com/package/punycode)
+      * [querystring](https://www.npmjs.com/package/querystring-es3)
+      * [stream](https://www.npmjs.com/package/stream-browserify)
+      * [string_decoder](https://www.npmjs.com/package/string_decoder)
+      * [timers](https://www.npmjs.com/package/timers-browserify)
+      * [tty](https://www.npmjs.com/package/tty-browserify)
+      * [url](https://www.npmjs.com/package/url)
+      * [util](https://www.npmjs.com/package/util)
+      * [vm](https://www.npmjs.com/package/vm-browserify)
+      * [zlib](https://www.npmjs.com/package/browserify-zlib)
+  * [be defined | bundled output](https://github.com/browserify/insert-module-globals),
+    * use SOME of NEXT variables
+      * [process](https://www.npmjs.com/package/process)
+      * [Buffer](https://www.npmjs.com/package/buffer)
+      * global 
+        * == top-level scope object (== `window`)
+      * __filename
+        * == CURRENTLY executing file's file path 
+      * __dirname
+        * == CURRENTLY executing file's directory path 
 
 # Examples
 ## Simple
@@ -251,7 +251,6 @@ Then in your page you can do:
   /* ... */
 </script>
 ```
-
 ## external source maps
 
 If you prefer the source maps be saved to a separate `.js.map` source map file, you may use
@@ -262,7 +261,6 @@ $ browserify main.js --debug | exorcist bundle.js.map > bundle.js
 ```
 
 Learn about additional options [here](https://github.com/thlorenz/exorcist#usage).
-
 ## multiple bundles
 
 If browserify finds a `require`d function already defined in the page scope, it
@@ -318,7 +316,6 @@ This approach using `-r` and `-x` works fine for a small number of split assets,
 but there are plugins for automatically factoring out components which are
 described in the
 [partitioning section of the browserify handbook](https://github.com/browserify/browserify-handbook#partitioning).
-
 ## api example
 
 You can use the API directly too:
@@ -332,49 +329,40 @@ b.bundle().pipe(process.stdout);
 
 # methods
 
-``` js
-var browserify = require('browserify')
-```
-
 ## `browserify([files] [, opts])`
 
-Returns a new browserify instance.
+* 👀returns a NEW browserify instance👀
+* arguments
+  * ⚠️specify | THIS concrete order⚠️
+  * `files`
+    * ALLOWED formats
+      * String,
+      * file object,
+      * PREVIOUS types `[]`
+    * ' content -- can be a -- stream
+  * `opts`
+    * `Object`
+    * `opts.entries`
+      * ' format == `files`' format
+    * `opts.require`
+      * == EXTERNAL requires
+      * 's format == `files`' format
+    * `opts.basedir`
+      * uses
+        * if you use streaming files
+          * Reason: 🧠resolve relative requires 🧠
+    * 
+  * ways to pass entry files
+    * | 
+      * `files`
+      * `opts.entries`
 
-<dl>
-<dt>
-files
-</dt>
+* TODO:
 
-<dd>
-String, file object, or array of those types (they may be mixed) specifying entry file(s).
-</dd>
 
-<dt>
-opts
-</dt>
 
-<dd>
-Object.
-</dd>
-</dl>
-
-`files` and `opts` are both optional, but must be in the order shown if both are
-passed.
-
-Entry files may be passed in `files` and / or `opts.entries`.
-
-External requires may be specified in `opts.require`, accepting the same formats
-that the `files` argument does.
-
-If an entry file is a stream, its contents will be used. You should pass
-`opts.basedir` when using streaming files so that relative requires can be
-resolved.
-
-`opts.entries` has the same definition as `files`.
-
-`opts.noParse` is an array which will skip all require() and global parsing for
-each file in the array. Use this for giant libs like jquery or threejs that
-don't have any requires or node-style globals but take forever to parse.
+`opts.noParse` is an array which will skip all require() and global parsing for each file in the array. 
+Use this for giant libs like jquery or threejs that don't have any requires or node-style globals but take forever to parse.
 
 `opts.transform` is an array of transform functions or modules names which will
 transform the source code before the parsing.
@@ -663,18 +651,19 @@ This function triggers a 'reset' event.
 
 # package.json
 
-browserify uses the `package.json` in its module resolution algorithm, just like
-node. If there is a `"main"` field, browserify will start resolving the package
-at that point. If there is no `"main"` field, browserify will look for an
-`"index.js"` file in the module root directory. Here are some more
-sophisticated things you can do in the package.json:
+* uses
+  * | its module resolution algorithm
+    * _Example:_ SAME as node 
+* if `"main"` field EXISTS -> browserify -- will start -- resolving the package | `"main"` 
+* if there is NO `"main"` field -> browserify -- will look for an -- `"index.js"` | module root directory 
+## things / you can do | package.json
+### browser field
 
-## browser field
-
-There is a special "[browser](https://github.com/defunctzombie/package-browser-field-spec)" field you can
-set in your package.json on a per-module basis to override file resolution for
-browser-specific versions of files.
-
+* ["browser"](https://github.com/defunctzombie/package-browser-field-spec)
+  * == field / 
+    * uses
+      * | your package.json, -- to override -- file resolution / files' browser-specific versions 
+* TODO:
 For example, if you want to have a browser-specific module entry point for your
 `"main"` field you can just set the `"browser"` field to a string:
 
@@ -693,8 +682,7 @@ or you can have overrides on a per-file basis:
 
 Note that the browser field only applies to files in the local module, and like
 transforms, it doesn't apply into `node_modules` directories.
-
-## browserify.transform
+### browserify.transform
 
 You can specify source transforms in the package.json in the
 `browserify.transform` field. There is more information about how source
